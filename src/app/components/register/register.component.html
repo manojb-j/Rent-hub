@@ -1,0 +1,92 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg" style="width: 800px; max-width: 100%">
+    <div class="row no-gutters">
+      <!-- Left Side: Login Form -->
+      <div class="col-md-6 p-4 d-flex align-items-center">
+        <div class="w-100 m-5">
+          <h3 class="card-title text-center mb-4">Register</h3>
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <div class="form-group mb-3">
+              <input
+                class="form-control"
+                id="email"
+                formControlName="fullName"
+                placeholder="Full name"
+              />
+              @if (fullName.invalid && (fullName.dirty || fullName.touched)) {
+              <small class="block p-error"> fullName is reqiured</small>
+              }
+            </div>
+            <div class="form-group mb-3">
+              <input
+                class="form-control"
+                placeholder="Email"
+                id="email"
+                formControlName="email"
+              />
+              @if (email.invalid && (email.dirty || email.touched)) {
+              <small class="block p-error">
+                @if (email.hasError('required')) {
+                <span>Email is required</span>
+                } @else if (email.hasError('pattern')) {
+                <span>Email is invalid</span>
+                }
+              </small>
+              }
+            </div>
+            <div class="form-group mb-3">
+              <input
+                formControlName="password"
+                inputId="password"
+                inputStyleClass="w-full"
+                styleClass="w-full"
+                class="form-control"
+                placeholder="password"
+              />
+              @if (password.invalid && (password.dirty || password.touched)) {
+              <small class="block p-error"> Password is reqiured</small>
+              }
+            </div>
+            <div class="form-group mb-3">
+              <input
+                formControlName="confirmPassword"
+                inputId="confirmPassword"
+                inputStyleClass="w-full"
+                styleClass="w-full"
+                class="form-control"
+                placeholder="confirm password"
+              />
+              @if (confirmPassword.invalid && (confirmPassword.dirty ||
+              confirmPassword.touched)) {
+              <small class="block p-error"> confirmPassword is reqiured</small>
+              }
+            </div>
+            <div>
+              <button
+                type="submit"
+                label="Register"
+                Class="btn btn-primary"
+                [disabled]="registerForm.invalid"
+              >
+                Register
+              </button>
+              <div class="mt-2">
+                ALready a member? <a routerLink="/login">login</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Side: Property Image -->
+      <div class="col-md-6">
+        <img
+          src="https://images.pexels.com/photos/358636/pexels-photo-358636.jpeg?cs=srgb&dl=pexels-pixabay-358636.jpg&fm=jpg"
+          alt="Property Image"
+          class="img-fluid h-100 w-100"
+          style="object-fit: cover"
+        />
+      </div>
+    </div>
+  </div>
+</div>

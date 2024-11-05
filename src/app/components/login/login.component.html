@@ -1,0 +1,81 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg" style="width: 800px; max-width: 100%">
+    <div class="row no-gutters">
+      <!-- Left Side: Login Form -->
+      <div class="col-md-6 p-4 d-flex align-items-center">
+        <div class="w-100 m-5">
+          <h3 class="card-title text-center mb-4">Login</h3>
+          <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="m-2">
+            <div class="form-group mb-3">
+              <input
+                type="email"
+                [(ngModel)]="login.email"
+                id="email"
+                name="email"
+                #email="ngModel"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                class="form-control"
+                placeholder="Enter your email"
+              />
+              <div
+                *ngIf="email.invalid && (email.dirty || email.touched)"
+                class="text-danger"
+              >
+                <small *ngIf="email.hasError('required')"
+                  >Email is required</small
+                >
+                <small *ngIf="email.hasError('pattern')"
+                  >Email is invalid</small
+                >
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <input
+                type="password"
+                [(ngModel)]="login.password"
+                inputId="password"
+                name="password"
+                #password="ngModel"
+                placeholder="Password"
+                class="form-control"
+                required
+              />
+              <div
+                *ngIf="password.invalid && (password.dirty || password.touched)"
+                class="text-danger"
+              >
+                <small>Password is required</small>
+              </div>
+            </div>
+            <div class="">
+              <button
+                pButton
+                label="Sign in"
+                class="btn btn-primary w-100"
+                [disabled]="loginForm.invalid"
+                type="submit"
+              ></button>
+            </div>
+            <div class="mt-3 text-center">
+              <small
+                >Don't have an account?
+                <a routerLink="/register">Register</a></small
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Side: Property Image -->
+      <div class="col-md-6">
+        <img
+          src="https://images.pexels.com/photos/358636/pexels-photo-358636.jpeg?cs=srgb&dl=pexels-pixabay-358636.jpg&fm=jpg"
+          alt="Property Image"
+          class="img-fluid h-100 w-100"
+          style="object-fit: cover"
+        />
+      </div>
+    </div>
+  </div>
+</div>

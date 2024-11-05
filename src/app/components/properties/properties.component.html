@@ -1,0 +1,511 @@
+<div class="container-fluid flex mt-8 ml-8 flex-column">
+  <!-- add new properties button  -->
+  <p-dialog
+    header="RENT HUB"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '55rem', margin: '10rem' }"
+  >
+    <form
+      #PropertiesForm="ngForm"
+      class="row gap-3"
+      (ngSubmit)="onSubmit(PropertiesForm)"
+    >
+      <span class="p-text-secondary block mb-5">
+        {{ editMode ? "Updating property" : "Adding new property to List" }}
+      </span>
+      <div class="d-flex felx-direction-row gap-3">
+        <div class="col-6">
+          <select
+            class="form-select"
+            name="cityList"
+            required
+            [(ngModel)]="properties.city"
+          >
+            <option value="">select city</option>
+            @for (item of cityList; track $index) {
+            <option>{{ item }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-6">
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            id=""
+            placeholder="name"
+            required
+            [(ngModel)]="properties.name"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <label>Upload Image:</label>
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          class="form-control"
+        />
+      </div>
+      <div class="col-6">
+        <label>Shared : </label>
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="shared"
+            value="Yes"
+            id=""
+            placeholder="shared"
+            required
+            [(ngModel)]="properties.shared"
+          />
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="shared"
+            value="no"
+            id=""
+            placeholder="shared"
+            required
+            [(ngModel)]="properties.shared"
+          />
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+      <div class="d-flex felx-direction-row gap-3">
+        <div class="col-6">
+          <input
+            type="text"
+            class="form-control"
+            name="detailes"
+            id=""
+            placeholder="property detailes"
+            required
+            [(ngModel)]="properties.detailes"
+          />
+        </div>
+        <div class="col-6">
+          <input
+            type="number"
+            class="form-control"
+            name="rent"
+            id=""
+            placeholder="Rent"
+            required
+            [(ngModel)]="properties.rent"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <input
+          type="text"
+          class="form-control"
+          name="location"
+          id=""
+          placeholder="Location"
+          required
+          [(ngModel)]="properties.location"
+        />
+      </div>
+      <div class="col-6">
+        <label>Is rooms furnished ? : </label>
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="furnished"
+            value="Yes"
+            id=""
+            placeholder="furnished"
+            required
+            [(ngModel)]="properties.furnished"
+          />
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="furnished"
+            value="no"
+            id=""
+            placeholder="furnished"
+            required
+            [(ngModel)]="properties.furnished"
+          />
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+
+      <!-- <div class="col-6">
+        <label>Amenities:</label>
+        <div *ngFor="let amenity of amenitiesOptions">
+          <p-checkbox
+            [label]="amenity"
+            (onChange)="onAmenitySelect(amenity, $event)"
+          ></p-checkbox>
+        </div>
+      </div> -->
+
+      <div class="col-12">
+        <label>Discription</label>
+        <textarea
+          cols="5"
+          rows="3"
+          class="form-control"
+          placeholder=""
+          name="discription"
+          required
+          [(ngModel)]="properties.discription"
+        ></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button
+          label="Cancel"
+          (click)="closeDialog()"
+          type="button"
+          class="btn btn-secondary"
+        >
+          cancle
+        </button>
+        <button
+          type="Submit"
+          label="Submit"
+          (click)="closeDialog()"
+          class="btn btn-primary"
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-warning"
+          data-toggle="modal"
+          data-target="#myModal"
+          (click)="showPreview()"
+        >
+          Preview
+        </button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Add Preview Dialog -->
+  <p-dialog
+    header="Property Preview"
+    [modal]="true"
+    [(visible)]="previewVisible"
+    [style]="{ width: '50rem' }"
+  >
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="card" style="width: 15rem; max-height: 500px">
+        <div style="position: relative">
+          <img
+            class="card-img-top"
+            [src]="properties.image"
+            alt="Card image cap"
+          />
+          <div
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              display: flex;
+              gap: 10px;
+            "
+          >
+            <i
+              class="pi pi-pencil"
+              style="
+                font-size: 1.5em;
+                color: #ffffff;
+                cursor: pointer;
+                transition: transform 0.3s;
+              "
+              (mouseenter)="hoverEdit = true"
+              (mouseleave)="hoverEdit = false"
+              (click)="editItem(properties)"
+              [ngStyle]="{
+                transform: hoverEdit ? 'scale(0.8)' : 'scale(0.8)'
+              }"
+            ></i>
+            <i
+              class="pi pi-trash"
+              style="
+                font-size: 1.5em;
+                color: #fff;
+                cursor: pointer;
+                transition: transform 0.3s;
+              "
+              (mouseenter)="hoverDelete = true"
+              (mouseleave)="hoverDelete = false"
+              (click)="deleteItem(properties.id)"
+              [ngStyle]="{
+                transform: hoverDelete ? 'scale(0.7)' : 'scale(0.7)'
+              }"
+            ></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ properties.location }}</h5>
+          <p
+            class="card-text"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+          >
+            {{ properties.discription }}
+          </p>
+          <p class="card-text">{{ properties.rent }}/-</p>
+          <div>
+            <div class="d-flex gap-2 mt-1 justify-content-end">
+              <button
+                label="details"
+                class="btn btn-primary"
+                (click)="getDetails(properties.id!)"
+              >
+                Detailes
+              </button>
+              <button
+                class="btn btn-secondary"
+                (click)="toggleFavorite(properties)"
+              >
+                <i
+                  [ngClass]="
+                    properties.favorite ? 'pi pi-heart-fill' : 'pi pi-heart'
+                  "
+                ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+      <button
+        label="Close"
+        (click)="closePreviewDialog()"
+        type="button"
+        class="btn btn-secondary"
+      >
+        Close
+      </button>
+    </div>
+  </p-dialog>
+
+  <!-- search bar and the filter options   -->
+  <div
+    class="d-flex justify-content-center align-items-center gap-3 mb-4 search-bar"
+  >
+    <!-- Search Bar -->
+    <input
+      type="text"
+      class="form-control w-50 transparent-input"
+      placeholder="Search properties..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearchOrFilterChange()"
+    />
+
+    <!-- filter opertaipn here -->
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="filterDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Filter Options
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+        <li>
+          <div class="p-3">
+            <h6>Price Range</h6>
+            <input
+              type="range"
+              [(ngModel)]="minPrice"
+              (change)="onSearchOrFilterChange()"
+              min="0"
+              max="10000"
+              class="form-range"
+            />
+            <input
+              type="range"
+              [(ngModel)]="maxPrice"
+              (change)="onSearchOrFilterChange()"
+              min="0"
+              max="10000"
+              class="form-range"
+            />
+            <div>
+              <strong>Min: </strong>{{ minPrice }} | <strong>Max: </strong
+              >{{ maxPrice }}
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="p-3">
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="showFavorites"
+                (change)="onShowFavoritesChange()"
+              />
+              Favorites
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="p-3">
+            <h6>Select City</h6>
+            <select
+              class="form-select"
+              [(ngModel)]="selectedFilter"
+              (change)="onSearchOrFilterChange()"
+            >
+              <option value="">All Cities</option>
+              <option *ngFor="let city of uniqueCities" [value]="city">
+                {{ city }}
+              </option>
+            </select>
+          </div>
+        </li>
+        <li>
+          <div class="p-3">
+            <h6>furnished</h6>
+            <div *ngFor="let item of ['Yes', 'No']">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [value]="item"
+                  (change)="onItemSelect(item, $event)"
+                />
+                <label class="form-check-label">{{ item }}</label>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <p-button
+      *ngIf="isAdmin"
+      (onClick)="showDialog()"
+      class="w-5px"
+      [style]="{
+        width: '8rem',
+        borderRadius: '8px',
+        height: '40px'
+      }"
+    >
+      Add New +
+    </p-button>
+  </div>
+
+  <!-- properties cards start form here -->
+  <div class="d-flex flex-row flex-wrap gap-4 m-5">
+    <div *ngFor="let item of paginatedPropertiesList; trackBy: trackByIndex">
+      <div class="card" style="width: 15rem; max-height: 500px">
+        <div style="position: relative">
+          <img class="card-img-top" [src]="item.image" alt="Card image cap" />
+          <div
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              display: flex;
+              gap: 10px;
+            "
+          >
+            <button
+              class="btn btn-secondary"
+              *ngIf="isAdmin"
+              (click)="editItem(item)"
+            >
+              <i
+                class="pi pi-pencil"
+                style="
+                  font-size: 1em;
+                  color: #ffffff;
+                  cursor: pointer;
+                  transition: transform 0.3s;
+                "
+              ></i>
+            </button>
+            <button
+              class="btn btn-secondary"
+              *ngIf="isAdmin"
+              (click)="deleteItem(item.id)"
+            >
+              <i
+                class="pi pi-trash"
+                style="
+                  font-size: 1em;
+                  color: #ffffff;
+                  cursor: pointer;
+                  transition: transform 0.3s;
+                "
+              ></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ item.location }}</h5>
+          <p
+            class="card-text"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+          >
+            {{ item.discription }}
+          </p>
+          <p class="card-text">{{ item.rent }}/- monthly</p>
+          <div>
+            <div class="d-flex gap-2 mt-1 justify-content-end">
+              <button
+                label="details"
+                class="btn btn-primary"
+                (click)="getDetails(item.id!)"
+              >
+                Detailes
+              </button>
+              <button class="btn btn-secondary" (click)="toggleFavorite(item)">
+                <i
+                  [ngClass]="item.favorite ? 'pi pi-heart-fill' : 'pi pi-heart'"
+                ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pagination start here -->
+  <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="currentPage === i + 1"
+      >
+        <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>

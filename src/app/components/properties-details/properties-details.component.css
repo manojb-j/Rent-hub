@@ -1,0 +1,8 @@
+.scrollable-content {
+    max-height: 80vh; /* Adjust this value as needed */
+    overflow-y: auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: background overlay for readability */
+    border-radius: 8px; /* Optional */
+  }
+  

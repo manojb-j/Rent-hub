@@ -1,0 +1,25 @@
+.heart-filled {
+    color: red;
+  }
+  
+  .search-bar {
+    position: fixed;  /* Fixes the position relative to the viewport */
+    top: 100px;          /* Positions it at the top of the screen */
+    left: 50%;       /* Centers the div horizontally */
+    transform: translateX(-50%); /* Adjusts for centering */
+    z-index: 1000;   /* Ensures it stays on top of other elements */
+    width: 100%;     /* Optional: Makes the search bar full width */
+}
+
+  
+.transparent-input {
+  background-color: #ffffffba; /* Makes the background transparent */
+  border: none;                 /* Removes the border */
+  color: #000000;                  /* Sets the text color (change as needed) */
+  border: 1px solid gray;
+
+}
+
+.transparent-input::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Placeholder color, adjust opacity as needed */
+}

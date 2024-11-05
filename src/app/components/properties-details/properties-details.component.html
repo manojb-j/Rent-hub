@@ -1,0 +1,81 @@
+<div
+  class="d-flex justify-content-center align-items-center w-100 h-100 position-relative background-blur"
+  style="
+    background-image: url('https://media.istockphoto.com/id/687504482/photo/abstract-background-blur-bokeh-image-of-modern-skyscrapers-in-new-business-district-in.jpg?s=612x612&w=0&k=20&c=QrKT7Ep2cFuOZblrrvSbbqgu_imbv0rUcMJ_xTKNKow=');
+    background-size: cover;
+    background-attachment: fixed;
+  "
+>
+  <div class="background-blur"></div>
+  <div
+    class="card text-white bg-white scrollable-content"
+    style="width: 50rem"
+    *ngIf="propertyDetails"
+  >
+    <div class="card-body">
+      <img
+        style="width: 100%; height: 250px"
+        [src]="propertyDetails.image"
+        alt="property-image"
+      />
+      <h3 class="card-text text-dark">{{ propertyDetails.name }}</h3>
+      <p class="card-text text-dark">{{ propertyDetails.city }}</p>
+      <p class="card-text text-dark">
+        location : {{ propertyDetails.location }}
+      </p>
+      <p class="card-text text-dark">{{ propertyDetails.discription }}</p>
+      <p class="card-text text-dark">
+        Rent : monthly/-{{ propertyDetails.rent }}
+      </p>
+      <p class="card-text text-dark">shared : {{ propertyDetails.shared }}</p>
+      <p class="card-text text-dark">{{ propertyDetails.amenities }}</p>
+
+      <!-- comment section -->
+
+      <p class="d-flex flex-direction-row gap-3">
+        <button class="btn btn-primary" (click)="onEnquiry()">Enquiry</button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapseExample"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          Reviews
+        </button>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body text-dark">
+          <h3>Reviews</h3>
+          <div *ngIf="propertyDetails.comments?.length; else noComments">
+            <div
+              *ngFor="let comment of propertyDetails.comments"
+              class="comment"
+            >
+              <p>
+                <strong>{{ comment.user }}</strong> -
+                {{ comment.date | date : "short" }}
+              </p>
+              <p>{{ comment.text }}</p>
+            </div>
+          </div>
+          <ng-template #noComments>
+            <p>No comments yet.</p>
+          </ng-template>
+
+          <div class="add-comment">
+            <textarea
+              [(ngModel)]="newComment"
+              placeholder="Write a comment..."
+              class="form-control"
+            ></textarea>
+            <button (click)="addComment()" class="btn btn-primary mt-2">
+              post comment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
