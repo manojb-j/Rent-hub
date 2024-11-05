@@ -19,7 +19,7 @@ in discussions.
 
 ## Credentials - Admin
 
-Email: user1@gmail.com
+Email: user1@gmail.com / manoj.b-j@nagarro.com
 password: 123
 
 ## bonus points
@@ -27,3 +27,7 @@ password: 123
 Implemented Preview and Submit Screen for post
 
 ## Links
+
+application link : https://grand-sopapillas-9b390d.netlify.app/
+
+github link : https://github.com/manojb-j/Rent-hub
