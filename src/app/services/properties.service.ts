@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { CommentModel, PropertiesModel } from '../Model/properties';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PropertiesService {
-  private apiUrl = 'https://rent-hub-data-4.onrender.com/properties';
+  private apiUrl = `${environment.url}/properties`;
 
   constructor(private http: HttpClient) {}
 
