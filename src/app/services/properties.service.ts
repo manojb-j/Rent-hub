@@ -7,7 +7,7 @@ import { CommentModel, PropertiesModel } from '../Model/properties';
   providedIn: 'root',
 })
 export class PropertiesService {
-  private apiUrl = 'http://localhost:3000/properties';
+  private apiUrl = 'https://rent-hub-data-4.onrender.com/properties';
 
   constructor(private http: HttpClient) {}
 
